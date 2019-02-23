@@ -1,11 +1,17 @@
 $( document ).ready(function() {
 
+    timer();
+
     var answer1 = true
     var answer2 = false
     var answer3 = false
     var userSelection1 
     var userSelection2
     var userSelection3
+
+    var intervalId;
+    var clockRunning = false;
+    var time = 1;
     // make ".on('click",) events for all the buttons 
        $('#true1').on("click", answerTrue1)
        $('#false1').on("click", answerFalse1)
@@ -42,10 +48,47 @@ $( document ).ready(function() {
        }
     };   
 
-    // make right or wrong statments for the answers to the questions
-    // make a timer that starts when the player clicks the first answer
-    // timer stops when the player answers all the questions or when it expires 
-    // display the players "score" via telling them if they were right or wrong.
-    // reset the game when the player accepts their score.
-    // DON"T FORGET THE CSS!!!!!
-});
+    
+    // make a timer that starts when the player loads the page.
+     function timer() {
+        $("#start").on("click", start);
+        $("#submit").on("click", stop);
+        }
+     function start() {
+        if (!clockRunning) {
+          intervalId = setInterval(count, 1000);
+          clockRunning = true;
+            };
+        }
+        function stop() {
+            if (clockRunning) {
+              clearInterval(intervalId);
+              clockRunning = false;
+            };
+          };
+          function count() {
+            time--
+            var converted = timeConverter(time);
+            $('#display').text(converted);
+          }
+          function timeConverter(t) {
+
+            var minutes = Math.floor(t / 60);
+            var seconds = t - (minutes * 60);
+          
+            if (seconds < 10) {
+              seconds = "0" + seconds;
+            }
+          
+            if (minutes === 0) {
+              minutes = "00";
+            }
+          
+            else if (minutes < 10) {
+              minutes = "0" + minutes;
+            }
+          
+            return minutes + ":" + seconds;
+          }
+ });
+  
